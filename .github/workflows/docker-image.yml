@@ -28,4 +28,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: yourdockerhubusername/yourimagename:latest
+          tags: briodan/hello-world:latest
