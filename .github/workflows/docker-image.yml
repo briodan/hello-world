@@ -2,8 +2,8 @@ name: Build Docker Image
 
 on:
   push:
-    branches:
-      - '**'
+    tags:
+      - 'v*'  # runs only on tag pushes like v2.0, v2.1, etc.
 
 jobs:
   build:
@@ -13,8 +13,8 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Extract branch name
-        run: echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      - name: Extract version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -30,6 +30,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: |
-            briodan/hello-world:${{ env.BRANCH_NAME }}
+          tags:  |
+            briodan/hello-world:${{ env.VERSION }}
             briodan/hello-world:latest
